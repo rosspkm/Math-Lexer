@@ -1,0 +1,49 @@
+Lexeme Rules
+
+<START> -> func() {<STMT_LIST>}
+<STMT_LIST> -> <STMT>; | <STMT> <STMT_LIST>
+<STMT> -> <DECLARATION> | <EXPR>; | <EXPR> {"," <EXPR>;}
+<DECLARATION> -> <IDENTIFIER> "=" <EXPR> | <IDENTIFIER> {"," <IDENTIFIER>} = <EXPR> {"," <EXPR>}
+<EXPR> -> <INT_LIT> | <FLOAT_LIT> |(<INT_LIT>|<FLOAT_LIT>)("+"|"-"|"*"|"/") (<INT_LIT> | <FLOAT_LIT>)
+<INT_LIT> -> (DIGIT){DIGIT}
+<DIGIT> -> (0...9)
+<FLOAT_LIT> -> (DIGIT){DIGIT}"."(DIGIT){DIGIT}
+
+# Production Rules
+
+Operator precedence parser –
+An operator precedence parser is a bottom-up parser that interprets an operator grammar. This parser is only used for operator grammars. Parsers do not allow any ambiguous grammars except for the operator precedence parser.
+There are two methods for determining what precedence relations should hold between a pair of terminals:
+Conventional associativity and precedence of operator.
+In this second method, it is needed that and unambiguous grammar for the language is constructed. The grammar should reflect the correct associativity and precedence in its parse trees.
+Grammar:
+
+#	Rule	Comment
+1	E->E+T	Expression + Term
+2	E->E-T	Expression - Term
+3	E->T	Some expressions can be considered to be just terms
+4	T->T*P	Term * Power
+5	T->T/P	Term / Power
+6	T->P	Some terms can be considered to be just powers
+7	P->P^F	Power ^ Factor
+8	P->F	Some powers can be considered to be just factors
+9	F-> -F	This derivation stands for unary minus
+10	F-> +F	This derivation stands for unary plus
+11	F->a	Factor can be considered to be a constant
+12	F->(E)	Factor can be considered to be an expression in parentheses
+This parser relies on the following three precedence relations: ⋖, ≐, ⋗
+a ⋖ b This means a “yields precedence to” b.
+a ⋗ b This means a “takes precedence over” b.
+a ≐ b This means a “has same precedence as” b.
+
+S A A A * A A A A + A A A A P! A V A id + S
+Figure – Operator precedence relation table for grammar E->E+E/E*E/id
+
+Any relation between id and id is not present since id is not going to be compared and two variables cannot be had side by side. This table also has a disadvantage since if we have n operators then table size will be n*n and complexity will be 0(n2). For the table size to decrease, the operator function table will be used.
+
+Operator precedence parsers do not store the precedence table with the relations. There is a particular way of implementing them. Operator precedence parsers use precedence functions that map terminal symbols to integers, and the precedence relations between the symbols are implemented by numerical comparison. The parsing table can be encoded by two precedence functions f and g that map terminal symbols to integers. We select f and g such that:
+
+f(a) < g(b) whenever a yields precedence to b
+f(a) = g(b) whenever a and b have the same precedence
+f(a) > g(b) whenever a takes precedence over b
+
