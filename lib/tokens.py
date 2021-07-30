@@ -4,6 +4,7 @@ from dataclasses import dataclass
 # different token types in the simple calculator
 class TokenType(Enum):
 	UNKNOWN 	= 99
+	LETTER 		= 0
 	DIGIT    	= 1
 	ADD_OP      = 21
 	SUB_OP     	= 22
