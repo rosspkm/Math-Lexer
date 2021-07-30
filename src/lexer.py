@@ -53,6 +53,7 @@ class Lexer:
 				# if we come across a token we dont understand
 			else:
 				print(f"Next token is: {TokenType.UNKNOWN.value}, Illegal character '{self.current_char}'")
+				self.advance()
 
 	# builds the character into a digit    
 	def generate_number(self):
