@@ -52,7 +52,11 @@ class Lexer:
 
 				# if we come across a token we dont understand
 			else:
-				print(f"Next token is: {TokenType.UNKNOWN.value}, Illegal character '{self.current_char}'")
+				if self.current_char.isalpha():	
+					print(f"Next token is: {TokenType.LETTER.value}, Illegal character '{self.current_char}'")
+				else:
+					print(f"Next token is: {TokenType.UNKNOWN.value}, Illegal character '{self.current_char}'")	
+				
 				self.advance()
 
 	# builds the character into a digit    
